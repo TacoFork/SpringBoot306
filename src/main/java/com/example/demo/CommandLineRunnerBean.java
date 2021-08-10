@@ -19,6 +19,9 @@ public class CommandLineRunnerBean implements CommandLineRunner {
     @Autowired
     DirectorRepository directorRepository;
 
+    @Autowired
+    MovieRepository movieRepository;
+
     public void run(String...args){
 
         //Create director
@@ -44,6 +47,9 @@ public class CommandLineRunnerBean implements CommandLineRunner {
         Set<Movie> movies = new HashSet<>(); //cant just call a set have to use HashSet
         movies.add(movie);
         movies.add(movie2);
+
+//        movieRepository.save(movie);
+//        movieRepository.save(movie2);
 
         //save directors to the database
         director.setMovies(movies);

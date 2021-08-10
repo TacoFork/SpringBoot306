@@ -14,10 +14,13 @@ public class Director {
     private String genre;
 
     //sets do not allow duplicates
-    @OneToMany(mappedBy = "director", cascade = CascadeType.ALL, fetch = FetchType.EAGER) //cascade and fetch are configurations and have to do with how the database retrieves/updates information
-    //CascadeType.All is saying if the director is deleted so will all his movies. FetchType.EAGER is saying whenever we call for the director all of the movie objects are called as well.
-    // FetchType.LAZY means everytime you call the director only the movies specified will be called.
+    @OneToMany(mappedBy = "director", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Movie> movies;
+    //cascade and fetch are configurations and have to do with how the database retrieves/updates information
+    //CascadeType.All is saying if the director is deleted so will all his movies.
+    //FetchType.EAGER is saying whenever we call for the director all of the movie objects are called as well. Prevents deletion of child entity.
+    //FetchType.LAZY means everytime you call the director only the movies specified will be called.
+    //orphanRemoval = true allows to delete child entity entries. Add this only on the one-to-many side.
 
     public long getId() {
         return id;
