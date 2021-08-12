@@ -1,14 +1,18 @@
 package com.example.demo;
 
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -80,7 +84,19 @@ public class HomeController {
     }
 
     @PostMapping("/processMovie")
-    public String processMovie(@ModelAttribute Movie movie){
+    public String processMovie(@ModelAttribute Movie movie, @RequestParam("moviePicture") MultipartFile file){
+        if(file.isEmpty()  && (movie.getPhoto() == null || movie.getPhoto().isEmpty())){
+            movie.setPhoto("https://res.cloudinary.com/dkim/image/upload/v1628737068/mlhelhawh1qprfhnzzk5.jpg");
+        }
+        else if(!file.isEmpty()){
+            try{
+                Map uploadResult = cloudc.upload(file.getBytes(), ObjectUtils.asMap("resourcetype", "auto"));
+                movie.setPhoto(uploadResult.get("url").toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "redirect:/addMovie";
+            }
+        }
         movieRepository.save(movie);
         return "redirect:/";
     }

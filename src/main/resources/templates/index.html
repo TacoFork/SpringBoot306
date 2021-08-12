@@ -16,6 +16,7 @@
     <ul>
         <th:block th:each="movie : ${director.movies}"> <!-- a thymeleaf tag but when the html page is run it does not show. Good for organizing th:each and things like that -->
             <li th:inline="text"><b>[[${movie.title}]]</b> released in [[${movie.year}]]</li>
+            <img th:src="${movie.photo}" width="200" height="200">
             <li> <a th:href="@{/updateMovie/{id}(id=${movie.id})}">Update Movie</a></li>
             <li> <a th:href="@{/deleteMovie/{id}(id=${movie.id})}">Delete Movie</a></li>
         </th:block>

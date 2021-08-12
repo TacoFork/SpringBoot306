@@ -14,6 +14,8 @@ public class Movie {
 
     private String description;
 
+    private String photo;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "director_id")
     private Director director;
@@ -56,5 +58,13 @@ public class Movie {
 
     public void setDirector(Director director) {
         this.director = director;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }
